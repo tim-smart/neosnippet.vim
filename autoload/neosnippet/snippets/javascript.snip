@@ -22,12 +22,12 @@ snippet proto
 options head
   ${1:#:class_name}.prototype.${2:#:method_name} = function(${3:#:first_argument}) {
     ${0:TARGET}
-  };
+  }
 
 
 snippet f
 options word
-  function(${1}) { ${0:TARGET} };
+  function(${1}) { ${0:TARGET} }
 
 snippet if
 options head
@@ -45,7 +45,7 @@ options head
 
 snippet for
 options head
-  for (var ${1:i}=0; $1 < ${2:#:Things}.length; ++$1) {
+  for (var ${1:i} = 0, $1l = ${2:#:Things}.length; $1 < $2l; ++$1) {
     ${0:TARGET}
   }
 
@@ -66,9 +66,9 @@ options word
 
 snippet setTimeout-function
 options head
-  setTimeout(function() { ${0} }, ${1:10});
+  setTimeout(function() { ${0} }, ${1:10})
 
 snippet console-log
 alias cl
 options head
-  console.log(${0:TARGET});
+  console.log(${0:TARGET})
