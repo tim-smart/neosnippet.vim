@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: neosnippet.vim
+" FILE: variables.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 05 Jan 2014.
+" Last Modified: 21 Nov 2013.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -27,41 +27,52 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:source = {
-      \ 'name' : 'neosnippet',
-      \ 'kind' : 'keyword',
-      \ 'rank' : 8,
-      \ 'hooks' : {},
-      \ 'matchers' :
-      \      (g:neocomplete#enable_fuzzy_completion ?
-      \          ['matcher_fuzzy'] : ['matcher_head']),
-      \}
+function! neosnippet#variables#current_neosnippet() "{{{
+  if !exists('b:neosnippet')
+    let b:neosnippet = {
+          \ 'snippets' : {},
+          \ 'selected_text' : '',
+          \ 'target' : '',
+          \ 'trigger' : 0,
+          \}
+  endif
 
-function! s:source.hooks.on_init(context) "{{{
-  " Initialize.
-  call neosnippet#util#set_default(
-        \ 'g:neosnippet#enable_preview', 0)
+  return b:neosnippet
 endfunction"}}}
+function! neosnippet#variables#expand_stack() "{{{
+  if !exists('s:expand_stack')
+    let s:expand_stack = []
+  endif
 
-function! s:source.gather_candidates(context) "{{{
-  return values(neosnippet#helpers#get_snippets())
+  return s:expand_stack
 endfunction"}}}
+function! neosnippet#variables#snippets() "{{{
+  if !exists('s:snippets')
+    let s:snippets= {}
+  endif
 
-function! s:source.hooks.on_post_filter(context) "{{{
-  for snippet in a:context.candidates
-    let snippet.dup = 1
-    let snippet.menu = neosnippet#util#strwidthpart(
-          \ snippet.menu_template, winwidth(0)/3)
-    if g:neosnippet#enable_preview
-      let snippet.info = snippet.snip
-    endif
-  endfor
-
-  return a:context.candidates
+  return s:snippets
 endfunction"}}}
+function! neosnippet#variables#set_snippets(list) "{{{
+  if !exists('s:snippets')
+    let s:snippets= {}
+  endif
 
-function! neocomplete#sources#neosnippet#define() "{{{
-  return s:source
+  let s:snippets = a:list
+endfunction"}}}
+function! neosnippet#variables#snippets_dir() "{{{
+  if !exists('s:snippets_dir')
+    let s:snippets_dir = []
+  endif
+
+  return s:snippets_dir
+endfunction"}}}
+function! neosnippet#variables#runtime_dir() "{{{
+  if !exists('s:runtime_dir')
+    let s:runtime_dir = []
+  endif
+
+  return s:runtime_dir
 endfunction"}}}
 
 let &cpo = s:save_cpo
